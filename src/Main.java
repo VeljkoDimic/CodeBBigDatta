@@ -34,7 +34,10 @@ public class Main {
 		   Status status = new Status(Server.update("STATUS")); //Get status
 		   if (status.hasMine()) {
 			   for (int i = 0; i < status.getMines().size(); i++) {	   
-				   if (mineStack.getFirst() != null && !status.getMines().get(i).equals(mineStack.getFirst())){
+				   if (mineStack.size() > 0 && !status.getMines().get(i).equals(mineStack.getFirst())){
+					   mineStack.addFirst(status.getMines().get(i));
+				   }
+				   else if (mineStack.size() == 0) {
 					   mineStack.addFirst(status.getMines().get(i));
 				   }
 			   }
@@ -46,7 +49,7 @@ public class Main {
 			   Server.update("BRAKE"); //Stop movement
 			   while (true){
 				   Status speed = new Status(Server.update("STATUS")); //Get status
-				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
+				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .001) break;
 				   try {
 					Thread.sleep(20);
 					} catch (InterruptedException e) {
@@ -67,7 +70,7 @@ public class Main {
 				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
 					   while (true){
 						   Status speed = new Status(Server.update("STATUS")); //Get status
-						   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
+						   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .001) break;
 						   try {
 							Thread.sleep(20);
 							} catch (InterruptedException e) {
