@@ -3,15 +3,13 @@ import java.io.IOException;
 
 public class Main {
 
-	public Main() {
-		// TODO Auto-generated constructor stub
-	}
 	public static void main(String[] args) throws IOException {
 	   Server.update("CONFIGURATIONS");
-	   Server.update("BRAKE");
-	   //Server.update("ACCELERATE " + (-0.922328895) + " " + 0.00451603684502747);
-	   //moveTo(4119.763502108395, 7439.664626567952, 5000, 5000);
-	   //System.out.println(bomb(7968.434070197629, 5000));  
+	   //Server.update("BRAKE");
+	   //Server.update("ACCELERATE 0 1");
+	   System.out.println(Status.x);
+	   moveTo(0,0,0,0);
+	   //bomb(Status.x, Status.y);
 	}
 	public static boolean bomb(double x, double y) {
 		String returnMessage = Server.update("BOMB " + x + " " + y);
@@ -21,7 +19,9 @@ public class Main {
 	public static boolean moveTo(double startX, double startY, double endX, double endY) {
 		double dx = endX - startX;
 		double dy = endY - startY;
+		if (dx == 0) return false;
 		double angle = Math.atan(dy/dx);
+		System.out.println(angle);
 		if (dx < 0 && dy > 0) {
 			angle += Math.PI/2;
 		}
