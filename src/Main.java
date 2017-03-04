@@ -10,7 +10,7 @@ import java.util.Stack;
 public class Main {
 	public static String USER, PASS;
 	static boolean hasTarget = false;
-	static Deque<Mine> mineStack = new LinkedList<Mine>();
+	//static Deque<Mine> mineStack = new LinkedList<Mine>();
 	 
 	public static void main(String[] args) throws IOException {     
 
@@ -20,59 +20,75 @@ public class Main {
 	   Server.update("ACCELERATE 1 1");
 	    
 	   while(true) { //Game Loop	   
-		   
+		   Mine mine;
 		   Scan scan = new Scan();
-		   List<Mine> mines = scan.update();		   
-		   if (mines.size() > 0) {
-			   for (int i = 0; i < mines.size(); i++) {
-				   if (mines.get(i).equals(mineStack.getLast())){
-					   mineStack.removeLast();
-				   }
-				   mineStack.addLast(mines.get(i));;
-			   }
+		   List<Mine> mines = scan.update();
+		   if (mines.size()>0){
+			   mine = mines.get(0);
+			   hasTarget = true;
 		   }
+//		   if (mines.size() > 0) {
+//			   for (int i = 0; i < mines.size(); i++) {
+//				   if (mines.get(i).equals(mineStack.getLast())){
+//					   mineStack.removeLast();
+//				   }
+//				   mineStack.addLast(mines.get(i));;
+//			   }
+//		   }
 		   
 		   Status status = new Status(Server.update("STATUS")); //Get status
 		   if (status.hasMine()) {
-			   for (int i = 0; i < status.getMines().size(); i++) {	   
-				   if (mineStack.size() > 0 && !status.getMines().get(i).equals(mineStack.getFirst())){
-					   mineStack.addFirst(status.getMines().get(i));
-				   }
-				   else if (mineStack.size() > 0 && status.getMines().get(i).equals(mineStack.getFirst())){
-					   mineStack.removeFirst();
-					   mineStack.addFirst(status.getMines().get(i));
-				   }
-				   else if (mineStack.size() == 0) {
-					   mineStack.addFirst(status.getMines().get(i));
-				   }
-			   }
+			   mine = status.getMines().get(0);
+			   hasTarget = true;
+//			   for (int i = 0; i < status.getMines().size(); i++) {	   
+//				   if (mineStack.size() > 0 && !status.getMines().get(i).equals(mineStack.getFirst())){
+//					   mineStack.addFirst(status.getMines().get(i));
+//				   }
+//				   else if (mineStack.size() > 0 && status.getMines().get(i).equals(mineStack.getFirst())){
+//					   mineStack.removeFirst();
+//					   mineStack.addFirst(status.getMines().get(i));
+//				   }
+//				   else if (mineStack.size() == 0) {
+//					   mineStack.addFirst(status.getMines().get(i));
+//				   }
+//			   }
 				   
 		   }
-		   
-		   if (!hasTarget && mineStack.size() > 0) {
-			   System.out.println("Target Aquired");
-			   Server.update("BRAKE"); //Stop movement
-			   while (true){
-				   Status speed = new Status(Server.update("STATUS")); //Get status
-				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .001) break;
-				   try {
-					Thread.sleep(20);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				   
-			   }
-				
-				hasTarget = true;
-				moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
+		   else{
+			   hasTarget = false;
+			   mine = new Mine();
 		   }
 		   
-		   else if (hasTarget) {
+		   //if (!hasTarget && mineStack.size() > 0) {
+//		   if (!hasTarget){
+//			   System.out.println("Target Aquired");
+//			   Server.update("BRAKE"); //Stop movement
+//			   while (true){
+//				   Status speed = new Status(Server.update("STATUS")); //Get status
+//				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .001) break;
+//				   try {
+//					Thread.sleep(20);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				   
+//			   }
+//				
+//				hasTarget = true;
+//				moveTo(mine.getx(), mine.gety());
+//				//moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
+//		   }
+		   
+//		   else if (hasTarget) {
+		   if (hasTarget) {
 			   System.out.println("Hunting");
-			   moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
-			   if (Math.abs(status.getPlayer().getx() - mineStack.getFirst().getx()) < 20 ) {
-				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
+			   moveTo(mine.getx(), mine.gety());
+			   //if (Math.abs(status.getPlayer().getx() - mine.getx()) < 20){
+				//   if (Math.abs(status.getPlayer().gety() - mine.gety()) < 20) {
+//			   moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
+//			   if (Math.abs(status.getPlayer().getx() - mineStack.getFirst().getx()) < 20 ) {
+//				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
 					   while (true){
 						   Status speed = new Status(Server.update("STATUS")); //Get status
 						   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .001) break;
@@ -83,15 +99,16 @@ public class Main {
 								e.printStackTrace();
 							}   
 					   }			   
-				   }
-			   }
+				   //}
+			   //}
 			   
-			   System.out.println(mineStack.getFirst().getOwner());
-			   if (mineStack.getFirst().getOwner().equals(USER)) {
-				   System.out.println("Captured");
-				   hasTarget = false;
-				   mineStack.removeFirst();
-			   }
+//			   System.out.println(mine.getOwner());
+//			   System.out.println(mineStack.getFirst().getOwner());
+//			   if (mineStack.getFirst().getOwner().equals(USER)) {
+//				   System.out.println("Captured");
+//				   hasTarget = false;
+//				   mineStack.removeFirst();
+//			   }
 		   }			   
 		   else {
 			   Server.update("ACCELERATE 1 1");
