@@ -31,4 +31,7 @@ public class gameObject {
 		this.y = y;
 	}
 
+	public boolean equals(gameObject o){
+		return (this.x == o.getx() && this.y == o.gety());
+	}
 }
