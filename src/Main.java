@@ -45,7 +45,7 @@ public class Main {
 			   Server.update("BRAKE");
 			   while (true){
 				   Status speed = new Status(Server.update("STATUS")); //Get status
-				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
+				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < 0.0015) break;
 				   try {
 					Thread.sleep(20);
 					} catch (InterruptedException e) {
@@ -114,18 +114,19 @@ public class Main {
 				    
 			   //}
 			   
-			   System.out.println(mine.getOwner());
+			   //System.out.println(mine.getOwner());
 			   if (status.getMines().size() == 0) {
-				   bomb(status.getPlayer().getx(), status.getPlayer().gety());
+				   //Status b = new Status(Server.update("STATUS"));
+				   //bomb(b.getPlayer().getx(), b.getPlayer().gety());
 				   System.out.println("Captured");
 				   hasTarget = false;
 			   }
 		   }			   
 		   else {
 			   Server.update("ACCELERATE 1 1");
-			   System.out.println(status.getPlayer().getx());
-			   Status b = new Status(Server.update("STATUS"));
-			   bomb(b.getPlayer().getx(), b.getPlayer().gety());
+			   //System.out.println(status.getPlayer().getx());
+			   //Status b = new Status(Server.update("STATUS"));
+			   //bomb(b.getPlayer().getx(), b.getPlayer().gety());
 		   }
 		   
 		   try {
