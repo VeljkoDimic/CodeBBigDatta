@@ -124,7 +124,8 @@ public class Main {
 		   else {
 			   Server.update("ACCELERATE 1 1");
 			   System.out.println(status.getPlayer().getx());
-			   bomb(status.getPlayer().getx(), status.getPlayer().gety());
+			   Status b = new Status(Server.update("STATUS"));
+			   bomb(b.getPlayer().getx(), b.getPlayer().gety());
 		   }
 		   
 		   try {
@@ -138,7 +139,7 @@ public class Main {
 	}
 	
 	public static boolean bomb(double x, double y) {
-		String returnMessage = Server.update("BOMB " + x + " " + y + " " + (int)(Status.getBombTime(Server.update("CONFIGURATIONS"))));
+		String returnMessage = Server.update("BOMB " + x + " " + y + " " + (Status.getBombTime(Server.update("CONFIGURATIONS"))));
 		if (returnMessage.contains("ERROR"))return false;
 		return true;
 	}

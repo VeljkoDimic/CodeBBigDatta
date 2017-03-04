@@ -90,11 +90,11 @@ public class Status {
 		return Double.parseDouble(st.nextToken());
 	}
 	
-	public static double getBombTime(String s){
+	public static int getBombTime(String s){
 		StringTokenizer st = new StringTokenizer(s);
 		while (st.hasMoreTokens() && !st.nextToken().equals("BOMBDELAY")){
 		}
-		return Double.parseDouble(st.nextToken());
+		return Integer.parseInt(st.nextToken());
 	}
 	
 	public Player getPlayer(){
