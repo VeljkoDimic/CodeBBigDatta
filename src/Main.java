@@ -7,10 +7,10 @@ public class Main {
 		// TODO Auto-generated constructor stub
 	}
 	public static void main(String[] args) throws IOException {
-	   Server.update("STATUS");
-	   //Server.update("BRAKE");
-	   //Server.update("ACCELERATE " + Math.PI * 3/2 + " .5");
-	   moveTo(3060.787526453938, 7718.087931618746, 5000, 5000);
+	   Server.update("CONFIGURATIONS");
+	   Server.update("BRAKE");
+	   //Server.update("ACCELERATE " + (-0.922328895) + " " + 0.00451603684502747);
+	   //moveTo(4119.763502108395, 7439.664626567952, 5000, 5000);
 	   //System.out.println(bomb(7968.434070197629, 5000));  
 	}
 	public static boolean bomb(double x, double y) {
@@ -31,7 +31,8 @@ public class Main {
 		if (dx > 0 && dy > 0) {
 			angle += Math.PI * 3/2;
 		}
-		Server.update("ACCELERATE " + angle + " 1");
+		String returnMessage = Server.update("ACCELERATE " + angle + " 1");
+		if (returnMessage.contains("ERROR")) return false;
 		return true;
 		
 	}
