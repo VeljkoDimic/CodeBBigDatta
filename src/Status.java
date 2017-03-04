@@ -11,8 +11,6 @@ public class Status {
 	int numBomb;
 	List<Bomb> bombs = new ArrayList<Bomb>();
 	
-	private Status() {}
-	
 	Status(String in){
 		StringTokenizer st = new StringTokenizer(in);
 		if (st.hasMoreTokens() && st.nextToken().equals("STATUS_OUT")){
