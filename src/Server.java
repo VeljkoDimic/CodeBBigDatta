@@ -16,13 +16,13 @@ import java.net.Socket;
  *
  * @author atamarkin2
  */
-public class ExchangeClient {
+public class Server {
 
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void update(String arg) throws IOException {
         
         Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
         PrintWriter pout = new PrintWriter(socket.getOutputStream());
@@ -34,9 +34,7 @@ public class ExchangeClient {
 		StringBuffer stringBuffer = new StringBuffer();
 		
         pout.println(bufferedReader.readLine() + " " + bufferedReader.readLine());
-        for (int i = 0; i < args.length; i++) {
-            pout.println(args[i]);
-        }
+        pout.println(arg);
         pout.println("CLOSE_CONNECTION");
         pout.flush();
         String line;
