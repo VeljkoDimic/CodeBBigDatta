@@ -43,18 +43,27 @@ public class Main {
 			   System.out.println("Target Aquired");
 			   Server.update("BRAKE"); //Stop movement
 			   
-				try {
-					Thread.sleep(4000); //Wait for stop to complete
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			   while (true){
+				   Status speed = new Status(Server.update("STATUS")); //Get status
+				   //System.out.println(speed.getPlayer().getdx());
+				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
+				   
+				   try {
+					Thread.sleep(20);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				   
+			   }
 				
 				hasTarget = true;
 				moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
 		   }
 		   
 		   else if (hasTarget) {
-			   //System.out.println("Hunting");
+			   System.out.println("Hunting");
+			   moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
 			   if (Math.abs(status.getPlayer().getx() - mineStack.getFirst().getx()) < 20 ) {
 				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
 					   Server.update("BRAKE");
