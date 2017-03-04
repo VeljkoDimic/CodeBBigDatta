@@ -16,7 +16,17 @@ public class Main {
 		bufferedReader.close();
 		
 	   Server.update("CONFIGURATIONS");
-	    moveTo(10000,0);
+	   Server.update("ACCELERATE 1 1");
+	   boolean movingTo = false;
+	   while(true) {
+		   Status status = new Status(Server.update("STATUS")); //Get status
+		   if (status.hasMine() && !movingTo) {
+			   System.out.println("GOT ONE");
+			   movingTo = true;
+			   moveTo(status.getMines().get(0).getx() , status.getMines().get(0).gety());
+		   }
+	   }
+	    //moveTo(10000,0);
 	}
 	
 	public static boolean bomb(double x, double y) {
