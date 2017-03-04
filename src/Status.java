@@ -75,6 +75,18 @@ public class Status {
 	public Player getPlayer(){
 		return player;
 	}
+	
+	public List<Mine> getMines(){
+		return mines;
+	}
+	
+	public List<Player> getOpponents(){
+		return opponents;
+	}
+	
+	public List<Bomb> getBombs(){
+		return bombs;
+	}
 		
 	public static boolean isNumeric(String str){  
 		try{  
