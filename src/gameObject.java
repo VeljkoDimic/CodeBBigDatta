@@ -1,4 +1,6 @@
-
+/* 
+ * Object for players, bombs, mines with x and y position
+ */
 public class gameObject {
 	private double x;
 	private double y;

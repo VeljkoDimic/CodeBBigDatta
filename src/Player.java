@@ -1,4 +1,6 @@
-
+/*
+ * Player with velocity and x and y location
+ */
 public class Player extends gameObject{
 	private double dx;
 	private double dy;

@@ -1,4 +1,6 @@
-
+/*
+ * Mine with location and owner
+ */
 public class Mine extends gameObject{
 	private String owner;
 	Mine(){
@@ -14,5 +16,9 @@ public class Mine extends gameObject{
 	Mine(double x, double y, String owner){
 		super(x, y);
 		this.owner = owner;
+	}
+	
+	boolean hasOwner(){
+		return owner.equals("");
 	}
 }

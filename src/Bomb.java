@@ -1,4 +1,6 @@
-
+/*
+ * Bomb with location
+ */
 public class Bomb extends gameObject{
 	Bomb(){
 		super();
