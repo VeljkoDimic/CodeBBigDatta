@@ -1,6 +1,7 @@
 /* 
  * Object for players, bombs, mines with x and y position
  */
+import java.math.*;
 public class gameObject {
 	private double x;
 	private double y;
@@ -32,6 +33,6 @@ public class gameObject {
 	}
 
 	public boolean equals(gameObject o){
-		return (this.x == o.getx() && this.y == o.gety());
+		return (Math.abs(this.x - o.getx()) < 0.001 && Math.abs(this.y - o.gety()) < 0.001);
 	}
 }
