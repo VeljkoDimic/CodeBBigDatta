@@ -34,7 +34,9 @@ public class Main {
 		   Status status = new Status(Server.update("STATUS")); //Get status
 		   if (status.hasMine()) {
 			   for (int i = 0; i < status.getMines().size(); i++) {	   
-				   mineStack.addFirst(status.getMines().get(i));
+				   if (mineStack.getFirst() != null && !status.getMines().get(i).equals(mineStack.getFirst())){
+					   mineStack.addFirst(status.getMines().get(i));
+				   }
 			   }
 				   
 		   }
@@ -42,12 +44,9 @@ public class Main {
 		   if (!hasTarget && mineStack.size() > 0) {
 			   System.out.println("Target Aquired");
 			   Server.update("BRAKE"); //Stop movement
-			   
 			   while (true){
 				   Status speed = new Status(Server.update("STATUS")); //Get status
-				   //System.out.println(speed.getPlayer().getdx());
 				   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
-				   
 				   try {
 					Thread.sleep(20);
 					} catch (InterruptedException e) {
@@ -66,15 +65,20 @@ public class Main {
 			   moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
 			   if (Math.abs(status.getPlayer().getx() - mineStack.getFirst().getx()) < 20 ) {
 				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
-					   Server.update("BRAKE");
-					   try {
-							Thread.sleep(3500); //Wait for stop to complete
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}					   
+					   while (true){
+						   Status speed = new Status(Server.update("STATUS")); //Get status
+						   if (Math.pow(speed.getPlayer().getdy(),2) + Math.pow(speed.getPlayer().getdx(),2) < .005) break;
+						   try {
+							Thread.sleep(20);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}   
+					   }			   
 				   }
 			   }
 			   
+			   System.out.println(mineStack.getFirst().getOwner());
 			   if (mineStack.getFirst().getOwner().equals(USER)) {
 				   System.out.println("Captured");
 				   hasTarget = false;
