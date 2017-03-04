@@ -28,12 +28,8 @@ public class Server {
 	        Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
 	        PrintWriter pout = new PrintWriter(socket.getOutputStream());
 	        BufferedReader bin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	       
-	        File file = new File("user.txt");
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			
-	        pout.println(bufferedReader.readLine() + " " + bufferedReader.readLine());
+	        pout.println(Main.USER + " " + Main.PASS);
 	        pout.println(arg);
 	        pout.println("CLOSE_CONNECTION");
 	        pout.flush();
@@ -42,7 +38,6 @@ public class Server {
 	    	System.out.println(line);
 	    	pout.close();
 	        bin.close();    
-	        bufferedReader.close();
 	        socket.close();
         }
         catch (IOException e) {

@@ -1,61 +1,54 @@
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
-
-	public static void main(String[] args) throws IOException {
-	   Server.update("CONFIGURATIONS");
-	   //Server.update("BRAKE");
-	   //Server.update("ACCELERATE " +  Math.PI * 11/6 + " 1");
-	   
-	    
-		Status status = new Status(Server.update("STATUS"));
-		//System.out.println(status.getPlayer().getx() + "Y IS " + status.getPlayer().gety());
+	public static String USER, PASS;
+	
+	public static void main(String[] args) throws IOException {     
+        File file = new File("user.txt");
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		USER = bufferedReader.readLine();
+		PASS = bufferedReader.readLine();
+		bufferedReader.close();
 		
-	    moveTo(status.getPlayer().getx(),status.getPlayer().gety(),5000,5000);
-	   //bomb(Status.x, Status.y);
-	    for (int i = 0; i < 10000; i++) {
-	    	Server.update("STATUS");
-	    }
+	   Server.update("CONFIGURATIONS");
+	    moveTo(10000,0);
 	}
+	
 	public static boolean bomb(double x, double y) {
 		String returnMessage = Server.update("BOMB " + x + " " + y);
 		if (returnMessage.contains("ERROR")) return false;
 		return true;
 	}
-	public static boolean moveTo(double startX, double startY, double endX, double endY) {
-		Server.update("BRAKE");
+	
+	public static boolean moveTo(double endX, double endY) {
+		Server.update("BRAKE"); //Stop movement
 		try {
-			Thread.sleep(3500);
+			Thread.sleep(3500); //Wait for stop to complete
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//Status status = new Status(Server.update("STATUS"));
-		//double vx = status.getPlayer().getdx() / 0.025;
-		//double vy = status.getPlayer().getdx() / 0.025;		
-		double dx = endX - startX;
-		double dy = endY - startY;
-		//double ax = vx - dx/(Math.pow((Math.pow(dx,2) + Math.pow(dy, 2)),0.5));
-		//double ay = -1*vy - dy/(Math.pow((Math.pow(dx,2) + Math.pow(dy, 2)),0.5));
-		if (dx == 0) return false;
-		double angle = Math.atan(Math.abs(dy/dx));
-		
-		if (dx < 0 && dy < 0) {
+		Status status = new Status(Server.update("STATUS")); //Get status	
+		double dx = endX - status.getPlayer().getx();
+		double dy = endY - status.getPlayer().gety();
+		if (dx == 0) return false; //avoid dividing by 0
+		double angle = Math.atan(Math.abs(dy/dx)); //find the angle in rad	
+		if (dx < 0 && dy < 0) { //top left
 			angle = Math.PI + angle;
-			System.out.println("2nd");
 		}
-		if (dx < 0 && dy > 0) {
+		if (dx < 0 && dy > 0) { //bottom left
 			angle = Math.PI - angle;
 			System.out.println("3nd");
 		}
-		if (dx > 0 && dy < 0){
+		if (dx > 0 && dy < 0){ // //top left
 			angle = 2*Math.PI - angle;
 			System.out.println("4th");
 		}
-		System.out.println(dx + " " + dy);
-		String returnMessage = Server.update("ACCELERATE " + angle + " 1");
+		String returnMessage = Server.update("ACCELERATE " + angle + " 1"); //send the command
 		if (returnMessage.contains("ERROR")) return false;
 		return true;
 	}
