@@ -25,9 +25,10 @@ public class Main {
 		   List<Mine> mines = scan.update();		   
 		   if (mines.size() > 0) {
 			   for (int i = 0; i < mines.size(); i++) {
-				   if (!mines.get(i).equals(mineStack.getLast())){
-					   mineStack.addLast(mines.get(i));
+				   if (mines.get(i).equals(mineStack.getLast())){
+					   mineStack.removeLast();
 				   }
+				   mineStack.addLast(mines.get(i));;
 			   }
 		   }
 		   
@@ -35,6 +36,10 @@ public class Main {
 		   if (status.hasMine()) {
 			   for (int i = 0; i < status.getMines().size(); i++) {	   
 				   if (mineStack.size() > 0 && !status.getMines().get(i).equals(mineStack.getFirst())){
+					   mineStack.addFirst(status.getMines().get(i));
+				   }
+				   else if (mineStack.size() > 0 && status.getMines().get(i).equals(mineStack.getFirst())){
+					   mineStack.removeFirst();
 					   mineStack.addFirst(status.getMines().get(i));
 				   }
 				   else if (mineStack.size() == 0) {
