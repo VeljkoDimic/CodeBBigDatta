@@ -88,7 +88,13 @@ public class Status {
 		while (st.hasMoreTokens() && !st.nextToken().equals("BRAKEFRICTION")){
 		}
 		return Double.parseDouble(st.nextToken());
-
+	}
+	
+	public static double getBombTime(String s){
+		StringTokenizer st = new StringTokenizer(s);
+		while (st.hasMoreTokens() && !st.nextToken().equals("BOMBDELAY")){
+		}
+		return Double.parseDouble(st.nextToken());
 	}
 	
 	public Player getPlayer(){
