@@ -12,7 +12,7 @@ public class Main {
 		Status status = new Status(Server.update("STATUS"));
 		//System.out.println(status.getPlayer().getx() + "Y IS " + status.getPlayer().gety());
 		
-	    moveTo(status.getPlayer().getx(),status.getPlayer().gety(),5000,10000);
+	    moveTo(status.getPlayer().getx(),status.getPlayer().gety(),5000,5000);
 	   //bomb(Status.x, Status.y);
 	    for (int i = 0; i < 10000; i++) {
 	    	Server.update("STATUS");
@@ -43,15 +43,15 @@ public class Main {
 		double angle = Math.atan(Math.abs(dy/dx));
 		
 		if (dx < 0 && dy < 0) {
-			angle += Math.PI;
-			System.out.println("3rd");
-		}
-		if (dx < 0 && dy > 0) {
-			angle += Math.PI * 1/2;
+			angle = Math.PI + angle;
 			System.out.println("2nd");
 		}
-		if (dx > 0 && dy < 0) {
-			angle += Math.PI * 3/2;
+		if (dx < 0 && dy > 0) {
+			angle = Math.PI - angle;
+			System.out.println("3nd");
+		}
+		if (dx > 0 && dy < 0){
+			angle = 2*Math.PI - angle;
 			System.out.println("4th");
 		}
 		System.out.println(dx + " " + dy);
