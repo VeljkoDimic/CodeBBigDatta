@@ -75,9 +75,7 @@ public class Status {
 	public Player getPlayer(){
 		return player;
 	}
-	
-	public 
-	
+		
 	public static boolean isNumeric(String str){  
 		try{  
 			double d = Double.parseDouble(str);  
