@@ -1,7 +1,7 @@
 
 public class Player extends gameObject{
-	double dx;
-	double dy;
+	private double dx;
+	private double dy;
 	
 	Player(){
 		super();
