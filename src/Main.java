@@ -116,6 +116,7 @@ public class Main {
 			   
 			   System.out.println(mine.getOwner());
 			   if (status.getMines().size() == 0) {
+				   bomb(status.getPlayer().getx(), status.getPlayer().gety());
 				   System.out.println("Captured");
 				   hasTarget = false;
 			   }
