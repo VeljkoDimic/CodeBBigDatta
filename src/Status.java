@@ -15,7 +15,7 @@ public class Status {
 		numOpp = 0;
 		numBomb = 0;
 	}
-	
+
 	Status(String in){
 		StringTokenizer st = new StringTokenizer(in);
 		if (st.hasMoreTokens() && st.nextToken().equals("STATUS_OUT")){

@@ -6,9 +6,13 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	   Server.update("CONFIGURATIONS");
 	   //Server.update("BRAKE");
-	   //Server.update("ACCELERATE 0 1");
-	   System.out.println(Status.x);
-	   moveTo(0,0,0,0);
+	   Server.update("ACCELERATE 0 1");
+	   
+	   //System.out.println(status.x);
+	   for( int i = 0; i < 10000; i++) {
+		   Status status = new Status(Server.update("STATUS"));
+		   moveTo(status.x,status.y,9000,9000);
+	   }
 	   //bomb(Status.x, Status.y);
 	}
 	public static boolean bomb(double x, double y) {
