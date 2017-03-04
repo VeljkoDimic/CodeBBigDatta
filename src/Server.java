@@ -22,27 +22,33 @@ public class Server {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void update(String arg) throws IOException {
-        
-        Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
-        PrintWriter pout = new PrintWriter(socket.getOutputStream());
-        BufferedReader bin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-       
-        File file = new File("user.txt");
-		FileReader fileReader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		StringBuffer stringBuffer = new StringBuffer();
-		
-        pout.println(bufferedReader.readLine() + " " + bufferedReader.readLine());
-        pout.println(arg);
-        pout.println("CLOSE_CONNECTION");
-        pout.flush();
-        String line;
-        while ((line = bin.readLine()) != null) {
-            System.out.println(line);
+    public static String update(String arg) {
+    	String line = "";
+    	try {
+	        Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
+	        PrintWriter pout = new PrintWriter(socket.getOutputStream());
+	        BufferedReader bin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	       
+	        File file = new File("user.txt");
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			
+	        pout.println(bufferedReader.readLine() + " " + bufferedReader.readLine());
+	        pout.println(arg);
+	        pout.println("CLOSE_CONNECTION");
+	        pout.flush();
+	        
+	        line = bin.readLine();
+	    	System.out.println(line);
+	    	pout.close();
+	        bin.close();    
+	        bufferedReader.close();
+	        socket.close();
         }
-        pout.close();
-        bin.close();
+        catch (IOException e) {
+        	
+        }
+        return line;
     }
 
 }
