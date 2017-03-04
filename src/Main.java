@@ -2,56 +2,82 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 public class Main {
 	public static String USER, PASS;
-	
+	static boolean hasTarget = false;
+	static Deque<Mine> mineStack = new LinkedList<Mine>();
+	 
 	public static void main(String[] args) throws IOException {     
-        File file = new File("user.txt");
-		FileReader fileReader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		USER = bufferedReader.readLine();
-		PASS = bufferedReader.readLine();
-		bufferedReader.close();
-		
+
+	   getCredentials();
+	   
 	   Server.update("CONFIGURATIONS");
 	   Server.update("ACCELERATE 1 1");
-	   boolean movingTo = false;
-	   while(true) {
+	    
+	   while(true) { //Game Loop	   
+		   
+		   Scan scan = new Scan();
+		   List<Mine> mines = scan.update();		   
+		   if (mines.size() > 0) {
+			   for (int i = 0; i < mines.size(); i++) {
+				   if (!mines.get(i).equals(mineStack.getLast())){
+					   mineStack.addLast(mines.get(i));
+				   }
+			   }
+		   }
+		   
 		   Status status = new Status(Server.update("STATUS")); //Get status
-
 		   if (status.hasMine()) {
-			   System.out.println("GOT ONE");
+			   for (int i = 0; i < status.getMines().size(); i++) {	   
+				   mineStack.addFirst(status.getMines().get(i));
+			   }
+				   
+		   }
+		   
+		   if (!hasTarget && mineStack.size() > 0) {
+			   System.out.println("Target Aquired");
+			   Server.update("BRAKE"); //Stop movement
 			   
-			   if (!movingTo) {
-				   Server.update("BRAKE"); //Stop movement
-					try {
-						Thread.sleep(3500); //Wait for stop to complete
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					movingTo = true;
-					moveTo(status.getMines().get(0).getx() , status.getMines().get(0).gety());
-			   }			   
-			   if (Math.abs(status.getPlayer().getx() - status.getMines().get(0).getx()) < 15 ) {
-				   if (Math.abs(status.getPlayer().gety() - status.getMines().get(0).gety()) < 15) {
+				try {
+					Thread.sleep(4000); //Wait for stop to complete
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				hasTarget = true;
+				moveTo(mineStack.getFirst().getx() , mineStack.getFirst().gety());
+		   }
+		   
+		   else if (hasTarget) {
+			   //System.out.println("Hunting");
+			   if (Math.abs(status.getPlayer().getx() - mineStack.getFirst().getx()) < 20 ) {
+				   if (Math.abs(status.getPlayer().gety() - mineStack.getFirst().gety()) < 20) {
 					   Server.update("BRAKE");
-					   System.out.println("Brake");
 					   try {
 							Thread.sleep(3500); //Wait for stop to complete
 						} catch (InterruptedException e) {
 							e.printStackTrace();
-						}
-					   movingTo = false;
+						}					   
 				   }
 			   }
-		   }
+			   
+			   if (mineStack.getFirst().getOwner().equals(USER)) {
+				   System.out.println("Captured");
+				   hasTarget = false;
+				   mineStack.removeFirst();
+			   }
+		   }			   
 		   else {
 			   Server.update("ACCELERATE 1 1");
-			   movingTo = false;
 		   }
+		   
 		   try {
-			Thread.sleep(50);
+			Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -86,7 +112,7 @@ public class Main {
 			angle = 2*Math.PI - angle;
 			System.out.println("4th");
 		}
-		String returnMessage = Server.update("ACCELERATE " + angle + " .2"); //send the command
+		String returnMessage = Server.update("ACCELERATE " + angle + " 1"); //send the command
 		if (returnMessage.contains("ERROR")) return false;
 		return true;
 	}
@@ -118,4 +144,13 @@ public class Main {
 		return true;
 	}
 	*/
+	
+	private static void getCredentials() throws IOException {
+        File file = new File("user.txt");
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		USER = bufferedReader.readLine();
+		PASS = bufferedReader.readLine();
+		bufferedReader.close();
+	}
 }

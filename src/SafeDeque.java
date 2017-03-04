@@ -3,10 +3,11 @@ public class SafeDeque {
 	Deque<Mine> d;
 	
 	SafeDeque(){
+		d = new LinkedList<Mine>();
 	}
 	
 	public void addFirst(Mine m){
-		if (!m.equals(this.getFirst())){
+		if (this.getFirst() != null && !m.equals(this.getFirst())){
 			d.addFirst(m);
 		}
 	}
@@ -16,11 +17,13 @@ public class SafeDeque {
 	}
 	
 	public Mine getFirst(){
-		return d.getFirst();
+		if (d.getFirst() != null) 
+			return d.getFirst();
+		return null;
 	}
 	
 	public void addLast(Mine m){
-		if (!m.equals(this.getLast())){
+		if (this.getLast() != null && !m.equals(this.getLast())){
 			d.addLast(m);
 		}
 	}
@@ -31,5 +34,9 @@ public class SafeDeque {
 	
 	public Mine getLast(){
 		return d.getLast();
+	}
+	
+	public int size() {
+		return d.size();
 	}
 }

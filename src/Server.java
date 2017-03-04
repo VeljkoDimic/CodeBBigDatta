@@ -35,7 +35,7 @@ public class Server {
 	        pout.flush();
 	        
 	        line = bin.readLine();
-	    	//System.out.println(line);
+	    	System.out.println(line);
 	    	pout.close();
 	        bin.close();    
 	        socket.close();
