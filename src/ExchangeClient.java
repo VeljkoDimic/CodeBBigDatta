@@ -5,6 +5,8 @@
  */
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -21,15 +23,18 @@ public class ExchangeClient {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        if (args.length < 5) {
-            System.out.println("Usage: \nclientTask <host> <port> <user> <password> <command...>");
-
-        }
-        Socket socket = new Socket(args[0], Integer.parseInt(args[1]));
+        
+        Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
         PrintWriter pout = new PrintWriter(socket.getOutputStream());
         BufferedReader bin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        pout.println(args[2] + " " + args[3]);
-        for (int i = 4; i < args.length; i++) {
+       
+        File file = new File("user.txt");
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		StringBuffer stringBuffer = new StringBuffer();
+		
+        pout.println(bufferedReader.readLine() + " " + bufferedReader.readLine());
+        for (int i = 0; i < args.length; i++) {
             pout.println(args[i]);
         }
         pout.println("CLOSE_CONNECTION");
