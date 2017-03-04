@@ -1,21 +1,17 @@
 import java.util.*;
 
 public class Status {
-	Player player;
-	int numMines;
-	double x;
-	double y;
-	List<Mine> mines = new ArrayList<Mine>();
-	int numOpp;
-	List<Player> opponents = new ArrayList<Player>();
-	int numBomb;
-	List<Bomb> bombs = new ArrayList<Bomb>();
+	private Player player;
+	private int numMines;
+	private List<Mine> mines = new ArrayList<Mine>();
+	private int numOpp;
+	private List<Player> opponents = new ArrayList<Player>();
+	private int numBomb;
+	private List<Bomb> bombs = new ArrayList<Bomb>();
 	
 	Status() {
 		player = new Player();
 		numMines = 0;
-		x = 0;
-		y = 0;
 		numOpp = 0;
 		numBomb = 0;
 	}
@@ -23,8 +19,8 @@ public class Status {
 	Status(String in){
 		StringTokenizer st = new StringTokenizer(in);
 		if (st.hasMoreTokens() && st.nextToken().equals("STATUS_OUT")){
-			x = Double.parseDouble(st.nextToken());
-			y = Double.parseDouble(st.nextToken());
+			double x = Double.parseDouble(st.nextToken());
+			double y = Double.parseDouble(st.nextToken());
 			double dx = Double.parseDouble(st.nextToken());
 			double dy = Double.parseDouble(st.nextToken());
 			player = new Player(x, y, dx, dy);
@@ -64,7 +60,7 @@ public class Status {
 		
 		if (st.hasMoreTokens() && st.nextToken().equals("BOMBS")){
 			numBomb = Integer.parseInt(st.nextToken());
-			for (int i = 0; i < numOpp; i ++){
+			for (int i = 0; i < numBomb; i ++){
 				double x = Double.parseDouble(st.nextToken());
 				double y = Double.parseDouble(st.nextToken());
 				Bomb bomb = new Bomb(x,y);
@@ -79,6 +75,8 @@ public class Status {
 	public Player getPlayer(){
 		return player;
 	}
+	
+	public 
 	
 	public static boolean isNumeric(String str){  
 		try{  
