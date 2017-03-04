@@ -81,8 +81,13 @@ public class Status {
 				bombs.add(bomb);
 			}
 		}
-		
-		
+	}
+	
+	public static double getBrakeFriction(String s){
+		StringTokenizer st = new StringTokenizer(s);
+		while (st.hasMoreTokens() && !st.nextToken().equals("BRAKEFRICTION")){
+		}
+		return Double.parseDouble(st.nextToken());
 
 	}
 	
