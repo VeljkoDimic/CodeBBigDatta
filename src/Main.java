@@ -7,7 +7,7 @@ public class Main {
 	}
 	public static void main(String[] args) throws IOException {
 		
-	   Server.update("ACCELERATE 0 1");
+	   Server.update("ACCELERATE 0.1 1");
 	   
 	}
 
