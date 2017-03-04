@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class Status {
@@ -45,6 +51,16 @@ public class Status {
 		}
 		
 		
+		int count = 0;
+		for (int i = numMines; i > 0; i --){
+			if (mines.get(i).equals(Main.USER)){
+				count ++;
+				mines.remove(i);
+			}
+		}
+		numMines -= count;
+		
+		
 		if (st.hasMoreTokens() && st.nextToken().equals("PLAYERS")){
 			numOpp = Integer.parseInt(st.nextToken());
 			for (int i = 0; i < numOpp; i ++){
@@ -67,9 +83,6 @@ public class Status {
 				bombs.add(bomb);
 			}
 		}
-		
-		
-		
 	}
 	
 	public Player getPlayer(){
@@ -86,6 +99,10 @@ public class Status {
 	
 	public List<Bomb> getBombs(){
 		return bombs;
+	}
+	
+	public boolean hasMine(){
+		return numMines!= 0;
 	}
 		
 	public static boolean isNumeric(String str){  
