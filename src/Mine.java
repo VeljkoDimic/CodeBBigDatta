@@ -21,4 +21,7 @@ public class Mine extends gameObject{
 	boolean hasOwner(){
 		return owner.equals("");
 	}
+	String getOwner(){
+		return owner;
+	}
 }

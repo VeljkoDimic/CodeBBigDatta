@@ -52,8 +52,8 @@ public class Status {
 		
 		
 		int count = 0;
-		for (int i = numMines-1; i > 0; i --){
-			if (mines.get(i).equals(Main.USER)){
+		for (int i = numMines-1; i >= 0; i --){
+			if (mines.get(i).getOwner().equals(Main.USER)){
 				count ++;
 				mines.remove(i);
 			}

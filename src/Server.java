@@ -25,7 +25,7 @@ public class Server {
     public static String update(String arg) {
     	String line = "";
     	try {
-	        Socket socket = new Socket("localhost", Integer.parseInt("17429"));
+	        Socket socket = new Socket("codebb.cloudapp.net", Integer.parseInt("17429"));
 	        PrintWriter pout = new PrintWriter(socket.getOutputStream());
 	        BufferedReader bin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
@@ -35,7 +35,7 @@ public class Server {
 	        pout.flush();
 	        
 	        line = bin.readLine();
-	    	System.out.println(line);
+	    	//System.out.println(line);
 	    	pout.close();
 	        bin.close();    
 	        socket.close();
